@@ -1,0 +1,32 @@
+.movieDetails {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  grid-column-gap: 20px;
+}
+.genres {
+  margin-right: 10px;
+}
+.btn_goback {
+  margin-bottom: 20px;
+}
+.btn_goback {
+  cursor: pointer;
+  margin-top: 5px;
+  width: 90px;
+  height: 28px;
+  border: none;
+  border-radius: 5px;
+  background-color: #9407cc;
+  color: #ffffff;
+  font-size: 16px;
+}
+.btn_goback:active,
+.btn_goback:focus {
+  outline: none;
+}
+.btn_goback:active {
+  background-color: rgba(86, 63, 214, 0);
+  color: #000000;
+  font-size: 16px;
+  font-weight: 600;
+}
