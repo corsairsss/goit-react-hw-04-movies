@@ -9,8 +9,6 @@ export default class SearchBar extends Component {
 
   handleChangeValue = ({ target }) => this.setState({ value: target.value });
 
-
-
   onHandleSubmit = e => {
     const { value } = this.state;
     e.preventDefault();
@@ -22,23 +20,21 @@ export default class SearchBar extends Component {
   render() {
     const { value } = this.state;
     return (
-      <>
-        <div className={s.header}>
-          <form onSubmit={this.onHandleSubmit} className={s.form}>
-            <input
-              type="text"
-              value={value}
-              placeholder="search image..."
-              autoFocus
-              className={s.header__input}
-              onChange={this.handleChangeValue}
-            />
-            <button type="submit" className={s.header__btn}>
-              Search
-            </button>
-          </form>
-        </div>
-      </>
+      <div className={s.header}>
+        <form onSubmit={this.onHandleSubmit} className={s.form}>
+          <input
+            type="text"
+            value={value}
+            placeholder="search image..."
+            autoFocus
+            className={s.header__input}
+            onChange={this.handleChangeValue}
+          />
+          <button type="submit" className={s.header__btn}>
+            Search
+          </button>
+        </form>
+      </div>
     );
   }
 }

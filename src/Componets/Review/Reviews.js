@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 
 import apiMovies from '../../Services/apiMovie.js';
 
+import ReviewsView from '../../Views/Reviews/reviews.js';
+
 export default class Reviews extends Component {
   state = {
     reviews: [],
@@ -17,32 +19,6 @@ export default class Reviews extends Component {
   };
   render() {
     const { reviews } = this.state;
-    return (
-      <>
-        <div>
-          <h2>REVIEWS</h2>
-        </div>
-        <div>
-          {reviews.length > 0 && (
-            <>
-              <ul>
-                {reviews.map(review => (
-                  <li key={review.id}>
-                    <p>{review.author}</p>
-                    <p>{review.content}</p>
-                  </li>
-                ))}
-              </ul>
-            </>
-          )}
-
-          {reviews.length === 0 && (
-            <>
-              <p>We don't have any reviews for this movie</p>
-            </>
-          )}
-        </div>
-      </>
-    );
+    return <ReviewsView reviews={reviews}/>;
   }
 }

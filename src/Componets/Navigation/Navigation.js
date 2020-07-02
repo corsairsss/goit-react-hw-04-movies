@@ -1,18 +1,19 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 
+import menuList from './data.js';
+
 import s from './Navigation.module.css';
 
 const Navigation = () => (
   <ul className={s.list}>
-    <li>
-      <NavLink exact to="/">
-        Home
-      </NavLink>
-    </li>
-    <li>
-      <NavLink to="/movies">Movies</NavLink>
-    </li>
+    {menuList.map((itemList, idx) => (
+      <li key={idx}>
+        <NavLink exact to={itemList.path}>
+          {itemList.to}
+        </NavLink>
+      </li>
+    ))}
   </ul>
 );
 

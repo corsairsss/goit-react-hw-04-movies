@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 
+import MoviesView from '../../Views/Movies/movies.js';
 import SearchBar from '../SearchBar/SearchBar.js';
 
 import getQueryParams from '../../utils/getQueryParams.js';
@@ -9,6 +9,7 @@ import apiMovies from '../../Services/apiMovie.js';
 export default class Movies extends Component {
   state = {
     movies: [],
+    error: false,
   };
 
   handleChangeQuery = query => {
@@ -37,30 +38,19 @@ export default class Movies extends Component {
 
   fetchMovies = async query => {
     const results = await apiMovies.fetchListMovies(query);
-    this.setState({ movies: results });
+    results
+      ? this.setState({ movies: results })
+      : this.setState({ error: true });
+    // this.setState({ movies: results });
   };
 
   render() {
-    const { movies } = this.state;
-    const { match } = this.props;
+    const { movies, error } = this.state;
     return (
       <>
         <SearchBar onSubmit={this.handleChangeQuery} />
-
-        <ul>
-          {movies.map(movie => (
-            <li key={movie.id}>
-              <Link
-                to={{
-                  pathname: `${match.url}/${movie.id}`,
-                  state: { from: this.props.location },
-                }}
-              >
-                {movie.title}
-              </Link>
-            </li>
-          ))}
-        </ul>
+        {error && <h1>Error 404...</h1>}
+        {!error && <MoviesView movies={movies} props={this.props} />}
       </>
     );
   }

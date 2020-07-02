@@ -6,6 +6,8 @@ import routes from '../routes.js';
 
 import s from './MovieDetails.module.css';
 
+import MovieDetailsView from '../../Views/MoviesDetails/moviesdetails.js';
+
 const AsyncCast = lazy(() =>
   import('../Cast/Cast.js' /* webpackChunkName: "Cast" */),
 );
@@ -16,6 +18,7 @@ const AsyncReview = lazy(() =>
 export default class MovieDetails extends Component {
   state = {
     movieDetails: {},
+    from: '/',
   };
 
   componentDidMount() {
@@ -29,14 +32,29 @@ export default class MovieDetails extends Component {
   goBackToMoviesList = () => {
     const { state } = this.props.location;
     const { history } = this.props;
-    if (state) history.push(state.from);
+    if (state && state.from) history.push(state.from);
     else history.push('/movies');
+  };
+
+  defaultStateFrom = () => {
+    if (!this.props.location.state) {
+      this.props.location.state = {};
+      this.props.location.state.from = {
+        hash: '',
+        key: '',
+        pathname: '/movies',
+        search: '',
+        state: null,
+      };
+    }
   };
 
   render() {
     const { movieDetails } = this.state;
     const { match } = this.props;
+    this.defaultStateFrom();
     const { state } = this.props.location;
+    const isMovieDetails=Object.keys(movieDetails).length;
     return (
       <>
         <button
@@ -46,32 +64,8 @@ export default class MovieDetails extends Component {
         >
           Go back
         </button>
-        {Object.keys(movieDetails).length && (
-          <div className={s.movieDetails}>
-            <img
-              src={
-                movieDetails.poster_path
-                  ? `https://image.tmdb.org/t/p/w200${movieDetails.poster_path}`
-                  : 'http://placehold.it/200x300'
-              }
-              alt="movie"
-              width="200"
-            />
-            <div>
-              <h1>{`${movieDetails.title} (${movieDetails.release_date.slice(
-                0,
-                4,
-              )})`}</h1>
-              <p>{`User score:${movieDetails.vote_average * 10} %`}</p>
-              <h2>Overview</h2>
-              <p>{movieDetails.overview}</p>
-              <h3>Genres</h3>
-              {movieDetails.genres.map(gen => (
-                <span className={s.genres}>{gen.name}</span>
-              ))}
-            </div>
-          </div>
-        )}
+
+        {isMovieDetails && (<MovieDetailsView movieDetails={movieDetails} />)}
         <hr />
         <Link
           to={{
